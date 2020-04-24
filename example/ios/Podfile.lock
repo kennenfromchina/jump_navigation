@@ -1,0 +1,22 @@
+PODS:
+  - Flutter (1.0.0)
+  - jump_navigation (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - jump_navigation (from `.symlinks/plugins/jump_navigation/ios`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  jump_navigation:
+    :path: ".symlinks/plugins/jump_navigation/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  jump_navigation: 41b8bbeba785e27b463f62775cd97028d2d9196d
+
+PODFILE CHECKSUM: 3dbe063e9c90a5d7c9e4e76e70a821b9e2c1d271
+
+COCOAPODS: 1.9.1
