@@ -12,7 +12,7 @@
 - (void)handleMethodCall:(FlutterMethodCall *)call result:(FlutterResult)result {
     if ([@"getPlatformVersion" isEqualToString:call.method]) {
         result([@"iOS " stringByAppendingString:[[UIDevice currentDevice] systemVersion]]);
-    } else if ([@"navigationWithBaiduMap" isEqualToString:call.method] || [@"navigationWithAMap" isEqualToString:call.method] || [@"directionWithBaiduMap" isEqualToString:call.method]) {
+    } else if ([@"navigationWithBaiduMap" isEqualToString:call.method] || [@"navigationWithAMap" isEqualToString:call.method] || [@"directionWithBaiduMap" isEqualToString:call.method] || [@"directionWithAMap" isEqualToString:call.method]) {
         BOOL callBackResult = NO;
         NSString *uri = call.arguments[@"uri"];
         if (uri.length) {

@@ -274,9 +274,92 @@ class JumpNavigation {
     return false;
   }
 
+  /// 跳转高德地图导航
+  /// 参考文档:
+  /// Android: [https://lbs.amap.com/api/amap-mobile/guide/android/navigation]
+  /// iOS: [https://lbs.amap.com/api/amap-mobile/guide/ios/navi]
+  static Future<bool> navigationWithAMap({
+    /// 第三方调用应用名称。如 amap
+    /// 是
+    String sourceApplication = 'amap',
+
+    /// POI名称
+    /// 否
+    String poiname,
+
+    /// 对应sourceApplication 的POI ID
+    /// 否
+    String poiid,
+
+    /// 纬度
+    /// 是
+    @required double lat,
+
+    /// 经度
+    /// 是
+    @required double lon,
+
+    /// 是否偏移(0:lat 和 lon 是已经加密后的,不需要国测加密; 1:需要国测加密)
+    /// 是
+    int dev = 1,
+
+    /// 导航方式（0 速度快；1 费用少；2路程短；3 不走高速；4 躲避拥堵；5 不走高速且避免收费；6 不走高速且躲避拥堵；7；躲避收费和拥堵；8 不走高速躲避收费和拥堵）
+    /// 由于与用户本地设置冲突，Android平台自8.2.6版本起不支持该参数，偏好设置将以用户本地设置为准
+    /// 由于与用户本地设置冲突，iOS平台7.7.4版本起不支持该参数，偏好设置将以用户本地设置为准
+    /// 是
+    int style,
+  }) async {
+    Map<String, dynamic> params = {};
+    if ((sourceApplication ?? '').length > 0) {
+      params['sourceApplication'] = Uri.encodeFull(sourceApplication);
+    }
+    if ((poiname ?? '').length > 0) {
+      params['poiname'] = Uri.encodeFull(poiname);
+    }
+    if ((poiid ?? '').length > 0) {
+      params['poiid'] = Uri.encodeFull(poiid);
+    }
+    if ((lat ?? 0) != 0 && (lon ?? 0) != 0) {
+      params['lat'] = lat;
+      params['lon'] = lon;
+    }
+    if (dev != null) {
+      params['dev'] = dev;
+    }
+    if (style != null) {
+      params['style'] = style;
+    }
+
+    /// MARK: 直接使用Uri的API进行转换遇到中文字符串有可能失败,故换为遍历拼接
+    String queryString = '';
+    for (String key in params.keys) {
+      queryString += '$key=${params[key]}&';
+    }
+    if (queryString.length > 0) {
+      queryString = queryString.substring(0, queryString.length - 1);
+    }
+    String uri = (Platform.isAndroid ? 'androidamap' : 'iosamap') + '://navi';
+    uri += '${uri.contains('?') ? '&' : '?'}$queryString';
+
+    /*
+    String uri = Uri.parse('https://uri.amap.com/navigation')
+        .replace(
+      queryParameters: params,
+    )
+        .toString();
+    */
+    print(uri);
+    if (Platform.isAndroid) {
+      /// TODO:
+    } else if (Platform.isIOS) {
+      return _channel.invokeMethod('navigationWithAMap', {"uri": uri});
+    }
+    return false;
+  }
+
   /// 跳转高德地图路径规划
   /// 参考文档: [https://lbs.amap.com/api/uri-api/guide/travel/route]
-  static Future<bool> navigationWithAMap({
+  static Future<bool> directionWithAMap({
     /// 终点经纬度坐标， 格式为: position=lon,lat[,name]
     /// 是
     ///（1）lon表示经度，lat表示纬度； （2）起终点信息不可全为空，起点为空则自动传入用户当前的位置信息； 3）自动传入当前位置功能只在移动端生效；（4）endpoint 为地点名称，可自定义；
@@ -367,7 +450,7 @@ class JumpNavigation {
     if (Platform.isAndroid) {
       /// TODO:
     } else if (Platform.isIOS) {
-      return _channel.invokeMethod('navigationWithAMap', {"uri": uri});
+      return _channel.invokeMethod('directionWithAMap', {"uri": uri});
     }
     return false;
   }
