@@ -218,7 +218,7 @@ class JumpNavigation {
 //        params['origin'] =
 //            'name:${Uri.encodeFull(desName)}|latlng:$desLat,$desLng';
 //      } else {
-      params['origin'] = '$desLat,$desLng';
+      params['origin'] = '$originLat,$originLng';
 //      }
     }
     if ((coord_type ?? '').length > 0) {
