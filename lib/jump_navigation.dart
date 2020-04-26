@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'dart:io';
 
 class JumpNavigation {
   static const MethodChannel _channel = const MethodChannel('jump_navigation');
